@@ -24,7 +24,7 @@ const (
 	LibFakeTimePath       = "/usr/local/lib/faketime/libfaketime.so.1"
 	LibFakeTimeMountPath  = "/usr/local/lib/faketime"
 	CLUSTER_MODE_ENV      = "CLUSTER_MODE"
-	NamespaceDelayTimeout = 40 * time.Second
+	NamespaceDelayTimeout = "Namespace_Delay_Timeout"
 )
 
 var (
@@ -65,9 +65,22 @@ func (s *FaketimePlugin) Patch(pod *apiv1.Pod, operation addmissionV1.Operation)
 			fmt.Printf("Key %q already exists, using value: %s\n", pod.Namespace, entry.Value)
 			fakeTime = entry.Value
 		} else {
+			var namespaceDelayTimeout time.Duration
+			v, _ := os.LookupEnv(NamespaceDelayTimeout)
+			if v != "" {
+				timeout, err := strconv.Atoi(v)
+				if err != nil {
+					klog.Errorf("failed parse time, err:", err)
+					return []utils.PatchOperation{}
+				}
+				namespaceDelayTimeout = time.Duration(timeout)
+			} else {
+				namespaceDelayTimeout = 40 * time.Second
+			}
+			klog.Infof("namespaceDelayTimeout: %v", namespaceDelayTimeout)
 			keyEntry := namespaceDelayEntry{
 				Value:   fakeTime,
-				Timeout: time.AfterFunc(NamespaceDelayTimeout, func() { removeNamespaceDelayKey(pod.Namespace) }),
+				Timeout: time.AfterFunc(namespaceDelayTimeout, func() { removeNamespaceDelayKey(pod.Namespace) }),
 			}
 			delaySecondGroup[pod.Namespace] = keyEntry
 		}

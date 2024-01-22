@@ -96,6 +96,8 @@ spec:
           env:
             - name: CLUSTER_MODE     # CLUSTER_MODE为true时，命名空间内的所有pod在一定时间范围内(40s)启动时获得一致的偏移量
               value: "true"
+            - name: NamespaceDelayTimeout
+              value: "120"
             - name: LIBFAKETIME_PLUGIN_IMAGE
               value: "registry.cn-hangzhou.aliyuncs.com/acs/libfaketime:v1"
             - name: FAKETIME_PLUGIN_IMAGE
@@ -142,7 +144,7 @@ metadata:
     app: myapp
     version: v1
   annotations:
-    cloudnativegame.io/fake-time: "2024-01-01 00:00:00"  # 此处还可以配置时分秒组合的时间间隔，如'3h40s'和'-7h20m40s'， '-'表示过去的时间。
+    cloudnativegame.io/fake-time: "2030-01-01 00:00:00"  # 此处还可以配置时分秒组合的时间间隔，如'3h40s'和'-7h20m40s'， '-'表示过去的时间。
 spec:
   containers:
     - name: test
@@ -167,7 +169,7 @@ metadata:
     version: v1
   annotations:
     cloudnativegame.io/process-name: "hello"     # 如果需要同时修改多个进程用`,`隔开进程名即可
-    cloudnativegame.io/fake-time: "2024-01-01 00:00:00"     # 此处还可以配置调整的秒数，'86400'表示时间向后漂移一天，watchmaker不支持过去的时间。
+    cloudnativegame.io/fake-time: "2030-01-01 00:00:00"     # 此处还可以配置调整的秒数，'86400'表示时间向后漂移一天，watchmaker不支持过去的时间。
 spec:
   containers:
     - name: myhello
@@ -212,7 +214,7 @@ spec:
           value: hello               # 如果需要同时修改多个进程用`,`隔开进程名即可
         - name: delay_second
           value: '86400'
-      image: 'registry.cn-hangzhou.aliyuncs.com/acs/fake-time-sidecar:v1'
+      image: 'registry.cn-hangzhou.aliyuncs.com/acs/fake-time-sidecar:v2'
       imagePullPolicy: Always
       name: fake-time-sidecar
   shareProcessNamespace: true

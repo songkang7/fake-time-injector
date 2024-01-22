@@ -342,6 +342,6 @@ func removeNamespaceDelayKey(key string) {
 	if entry, exists := delaySecondGroup[key]; exists {
 		delete(delaySecondGroup, key)
 		entry.Timeout.Stop()
-		fmt.Printf("Key %q has been cleaned\n", key)
+		klog.Infof("Key %q has been cleaned\n", key)
 	}
 }

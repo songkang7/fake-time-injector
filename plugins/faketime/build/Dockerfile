@@ -1,4 +1,4 @@
-FROM golang:1.18
+FROM golang:1.19
 RUN mkdir -p /opt/app
 WORKDIR /opt/app/
 ADD ./chaos-mesh-2.6.0.tar.gz  /opt/app/

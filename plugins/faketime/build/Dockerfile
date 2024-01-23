@@ -3,7 +3,6 @@ RUN mkdir -p /opt/app
 WORKDIR /opt/app/
 ADD ./chaos-mesh-2.6.0.tar.gz  /opt/app/v2.6.0.tar.gz
 RUN tar -xvf /opt/app/v2.6.0.tar.gz -C /opt/app
-ADD ./Dockerfile /opt/app/chaos-mesh-2.6.0/
 ADD ./Makefile /opt/app/chaos-mesh-2.6.0/
 ADD ./start.sh /opt/app/chaos-mesh-2.6.0/
 WORKDIR /opt/app/chaos-mesh-2.6.0

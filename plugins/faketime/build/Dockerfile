@@ -7,4 +7,4 @@ ADD ./start.sh /opt/app/chaos-mesh-2.6.0/
 WORKDIR /opt/app/chaos-mesh-2.6.0
 RUN make watchmaker
 RUN chmod +777 ./start.sh
-CMD ./start.sh
+CMD ./start.sh && sleep infinity

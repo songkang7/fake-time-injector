@@ -84,7 +84,7 @@ spec:
         app: kubernetes-faketime-injector
     spec:
       containers:
-        - image: registry.cn-hangzhou.aliyuncs.com/acs/fake-time-injector:v5     # docker build -t fake-time-injector:v5 . -f fake-time-injector/Dockerfile
+        - image: registry-cn-hangzhou.ack.aliyuncs.com/acs/fake-time-injector:v5     # docker build -t fake-time-injector:v5 . -f fake-time-injector/Dockerfile
           imagePullPolicy: Always
           name: kubernetes-faketime-injector
           resources:
@@ -102,7 +102,7 @@ spec:
             - name: LIBFAKETIME_PLUGIN_IMAGE
               value: "registry.cn-hangzhou.aliyuncs.com/acs/libfaketime:v1"
             - name: FAKETIME_PLUGIN_IMAGE
-              value: "registry.cn-hangzhou.aliyuncs.com/acs/fake-time-sidecar:v4"   # docker build -t fake-time-sidecar:v1 . -f fake-time-injector/plugins/faketime/build/Dockerfile
+              value: "registry-cn-hangzhou.ack.aliyuncs.com/acs/fake-time-sidecar:v4.1"   # docker build -t fake-time-sidecar:v1 . -f fake-time-injector/plugins/faketime/build/Dockerfile
       serviceAccountName: fake-time-injector-sa
 ---
 kind: Service
@@ -240,7 +240,7 @@ spec:
           value: hello           # If you need to modify multiple processes at the same time, just separate the process names with `,`
         - name: delay_second
           value: '86400'
-      image: 'registry.cn-hangzhou.aliyuncs.com/acs/fake-time-sidecar:v4'
+      image: 'registry-cn-hangzhou.ack.aliyuncs.com/acs/fake-time-sidecar:v4.1'
       imagePullPolicy: Always
       name: fake-time-sidecar
   shareProcessNamespace: true
